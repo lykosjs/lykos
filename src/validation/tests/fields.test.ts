@@ -160,7 +160,25 @@ describe('enum()', () => {
     expect(() => e.enum(['a', '  '])).toThrow(TypeError)
     expect(() => e.enum(['a', 'a'])).toThrow(TypeError)
     expect(() => e.enum([1, 2])).toThrow(TypeError)
-    expect(() => e.enum('a,b')).toThrow(TypeError)
+    expect(() => e.enum('')).toThrow(TypeError)
+    expect(() => e.enum('a,,b')).toThrow(TypeError)
+    expect(() => e.enum('a,a')).toThrow(TypeError)
+    expect(() => e.enum(undefined)).toThrow(TypeError)
+    expect(() => e.enum(5)).toThrow(TypeError)
+  })
+
+  test('accepts a comma separated string', () => {
+    const T = defineSchema({ v: Validator.enum('a,b').required() })
+    expect(Validator.validate({ v: 'a' }, T).valid).toBe(true)
+    expect(Validator.validate({ v: 'b' }, T).valid).toBe(true)
+    expect(Validator.validate({ v: 'c' }, T).valid).toBe(false)
+  })
+
+  test('accepts an enum object (its values become the options)', () => {
+    const Role = { Admin: 'admin', User: 'user' } as const
+    const T = defineSchema({ v: Validator.enum(Role).required() })
+    expect(Validator.validate({ v: 'admin' }, T).valid).toBe(true)
+    expect(Validator.validate({ v: 'Admin' }, T).valid).toBe(false)
   })
 
   test('mutating the original options array afterwards does not affect the validator', () => {

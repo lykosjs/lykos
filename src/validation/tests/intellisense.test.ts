@@ -81,11 +81,17 @@ describe('the harness itself', () => {
 
 describe('IntelliSense after `.`', () => {
   test('boolean(): only presence methods', () => {
-    expect(completionsAfter('Validator.boolean()')).toEqual(['nullable', 'required'])
+    expect(completionsAfter('Validator.boolean()')).toEqual(['nullable', 'optional', 'required'])
   })
 
   test('number(): presence + min / max', () => {
-    expect(completionsAfter('Validator.number()')).toEqual(['max', 'min', 'nullable', 'required'])
+    expect(completionsAfter('Validator.number()')).toEqual([
+      'max',
+      'min',
+      'nullable',
+      'optional',
+      'required',
+    ])
   })
 
   test('array(): presence + minItems / maxItems', () => {
@@ -93,22 +99,29 @@ describe('IntelliSense after `.`', () => {
       'maxItems',
       'minItems',
       'nullable',
+      'optional',
       'required',
     ])
   })
 
   test('enum(): only presence methods', () => {
-    expect(completionsAfter("Validator.enum(['a', 'b'])")).toEqual(['nullable', 'required'])
+    expect(completionsAfter("Validator.enum(['a', 'b'])")).toEqual([
+      'nullable',
+      'optional',
+      'required',
+    ])
   })
 
   test('date(): only presence methods', () => {
-    expect(completionsAfter('Validator.date()')).toEqual(['nullable', 'required'])
+    expect(completionsAfter('Validator.date()')).toEqual(['nullable', 'optional', 'required'])
   })
 
   test('object(): only presence methods', () => {
-    expect(
-      completionsAfter('Validator.object({ city: Validator.text().required() })'),
-    ).toEqual(['nullable', 'required'])
+    expect(completionsAfter('Validator.object({ city: Validator.text().required() })')).toEqual([
+      'nullable',
+      'optional',
+      'required',
+    ])
   })
 
   test('text(): text rules, transformations and presence, nothing numeric', () => {
@@ -119,6 +132,7 @@ describe('IntelliSense after `.`', () => {
       'maxLength',
       'minLength',
       'nullable',
+      'optional',
       'required',
       'trim',
       'url',
@@ -131,6 +145,7 @@ describe('IntelliSense after `.`', () => {
       'email',
       'lowercase',
       'nullable',
+      'optional',
       'required',
       'trim',
       'url',
@@ -184,7 +199,7 @@ describe('IntelliSense after `.`', () => {
     expect(names).toContain('lowercase')
   })
 
-  test('after .required(), required / nullable are gone', () => {
+  test('after .required(), required / nullable / optional are gone', () => {
     expect(completionsAfter('Validator.boolean().required()')).toEqual([])
     expect(completionsAfter('Validator.date().required()')).toEqual([])
     expect(completionsAfter('Validator.text().required()')).toEqual([
@@ -196,6 +211,25 @@ describe('IntelliSense after `.`', () => {
       'trim',
       'url',
     ])
+  })
+
+  test('after .nullable() or .optional(), no presence method is left', () => {
+    for (const expression of [
+      'Validator.boolean().nullable()',
+      'Validator.boolean().optional()',
+      'Validator.date().nullable()',
+      'Validator.date().optional()',
+    ]) {
+      expect(completionsAfter(expression)).toEqual([])
+    }
+
+    for (const expression of ['Validator.text().nullable()', 'Validator.text().optional()']) {
+      const names = completionsAfter(expression)
+      expect(names).not.toContain('required')
+      expect(names).not.toContain('nullable')
+      expect(names).not.toContain('optional')
+      expect(names).toContain('minLength')
+    }
   })
 
   test('after .email(), url is gone (and email itself)', () => {
@@ -210,6 +244,10 @@ describe('IntelliSense after `.`', () => {
   })
 
   test('number(1, 10): only presence remains', () => {
-    expect(completionsAfter('Validator.number(1, 10)')).toEqual(['nullable', 'required'])
+    expect(completionsAfter('Validator.number(1, 10)')).toEqual([
+      'nullable',
+      'optional',
+      'required',
+    ])
   })
 })

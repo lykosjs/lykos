@@ -7,6 +7,7 @@ export interface FieldDef {
   readonly kind: Kind
   readonly required: boolean
   readonly nullable: boolean
+  readonly optional: boolean
   readonly email: boolean
   readonly url: boolean
   readonly confirmed: boolean
@@ -89,6 +90,7 @@ export class FieldBuilder {
       kind,
       required: false,
       nullable: false,
+      optional: false,
       email: false,
       url: false,
       confirmed: false,
@@ -125,6 +127,11 @@ export class FieldBuilder {
   nullable(): FieldBuilder {
     if (this.definition.nullable) throw duplicate('nullable')
     return new FieldBuilder({ ...this.definition, nullable: true })
+  }
+
+  optional(): FieldBuilder {
+    if (this.definition.optional) throw duplicate('optional')
+    return new FieldBuilder({ ...this.definition, optional: true })
   }
 
   // -- text rules -----------------------------------------------------------
@@ -262,4 +269,23 @@ export function validateEnumOptions(options: readonly string[]): void {
   if (new Set(options).size !== options.length) {
     throw new TypeError('Validator.enum() options cannot contain duplicates')
   }
+}
+
+/** Normalizes the accepted enum inputs (array, enum object, comma separated string) to a list. */
+export function resolveEnumOptions(input: unknown): string[] {
+  if (typeof input === 'string') {
+    return input.split(',').map((option) => option.trim())
+  }
+
+  if (Array.isArray(input)) {
+    return [...input]
+  }
+
+  if (typeof input === 'object' && input !== null) {
+    return Object.values(input)
+  }
+
+  throw new TypeError(
+    'Validator.enum() requires an array, an enum object or a comma separated string',
+  )
 }

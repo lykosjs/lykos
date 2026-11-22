@@ -18,7 +18,7 @@ export declare const stateKey: unique symbol
 
 export type Kind = 'string' | 'text' | 'number' | 'boolean' | 'array' | 'enum' | 'date' | 'object'
 
-export type Presence = 'unset' | 'required' | 'nullable'
+export type Presence = 'unset' | 'required' | 'nullable' | 'optional'
 
 export type RuleName =
   | 'minLength'
@@ -40,7 +40,7 @@ export interface State {
   readonly used: RuleName
 }
 
-type WithPresence<S extends State, P extends 'required' | 'nullable'> = {
+type WithPresence<S extends State, P extends 'required' | 'nullable' | 'optional'> = {
   readonly kind: S['kind']
   readonly value: S['value']
   readonly presence: P
@@ -78,13 +78,14 @@ type Conflicts<U extends RuleName> =
   | ('url' extends U ? 'email' : never)
 
 type Available<S extends State> =
-  | (S['presence'] extends 'unset' ? 'required' | 'nullable' : never)
+  | (S['presence'] extends 'unset' ? 'required' | 'nullable' | 'optional' : never)
   | Exclude<KindRules<S['kind']>, S['used'] | Conflicts<S['used']>>
 
 /** The complete method table. `Builder` picks from it what is still legal. */
 interface Methods<S extends State> {
   required(): Builder<WithPresence<S, 'required'>>
   nullable(): Builder<WithPresence<S, 'nullable'>>
+  optional(): Builder<WithPresence<S, 'optional'>>
 
   minLength(limit: number): Builder<Use<S, 'minLength'>>
   maxLength(limit: number): Builder<Use<S, 'maxLength'>>
@@ -118,12 +119,11 @@ export type ValidationSchema = Readonly<Record<string, AnyBuilder>>
 
 // `.email()` is accepted on a field whose name contains "email" (case-insensitive):
 // email, contactEmail, emailAddress ...
-type IsEmailKey<K extends string> =
-  Lowercase<K> extends `${string}email${string}` ? true : false
+type IsEmailKey<K extends string> = Lowercase<K> extends `${string}email${string}` ? true : false
 
 type Problems<K extends string, St extends State> =
   | (St['presence'] extends 'unset'
-      ? `"${K}": call .required() or .nullable() before using it in a schema`
+      ? `"${K}": call .required(), .nullable() or .optional() before using it in a schema`
       : never)
   | ('confirmed' extends St['used']
       ? K extends 'password'
@@ -172,6 +172,10 @@ export type InferSchema<S> = Simplify<
     [K in keyof S as StateOf<S[K]>['presence'] extends 'nullable' ? K : never]?:
       | StateOf<S[K]>['value']
       | null
+  } & {
+    [K in keyof S as StateOf<S[K]>['presence'] extends 'optional' ? K : never]?: StateOf<
+      S[K]
+    >['value']
   }
 >
 

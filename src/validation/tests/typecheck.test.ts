@@ -71,7 +71,7 @@ describe('TypeScript compilation', () => {
     'Validator.date().min(1)',
     'Validator.date().minLength(1)',
     'Validator.date().email()',
-    "Validator.object({ a: Validator.text().required() }).minLength(1)",
+    'Validator.object({ a: Validator.text().required() }).minLength(1)',
     // trim() / lowercase() exist on string and text only
     'Validator.number(18, 100).trim()',
     'Validator.number().lowercase()',
@@ -81,16 +81,18 @@ describe('TypeScript compilation', () => {
     'Validator.array().lowercase()',
     "Validator.enum(['admin', 'user']).trim()",
     "Validator.enum(['admin', 'user']).lowercase()",
-    "Validator.object({ a: Validator.text().required() }).trim()",
-    "Validator.object({ a: Validator.text().required() }).lowercase()",
+    'Validator.object({ a: Validator.text().required() }).trim()',
+    'Validator.object({ a: Validator.text().required() }).lowercase()',
     'Validator.date().trim()',
     'Validator.date().lowercase()',
-    // a rule is applied once; required / nullable and email / url exclude each other
+    // a rule is applied once; required / nullable / optional and email / url exclude each other
     'Validator.text().trim().trim()',
     'Validator.text().lowercase().lowercase()',
     'Validator.string(3, 50).minLength(5)',
     'Validator.text().email().url()',
     'Validator.text().required().nullable()',
+    'Validator.text().required().optional()',
+    'Validator.text().nullable().optional()',
     'Validator.date().required().nullable()',
     // factories
     'Validator.string()',
@@ -101,7 +103,7 @@ describe('TypeScript compilation', () => {
     'Validator.object({ city: Validator.string(2, 100) })',
     'Validator.object({ city: Validator.string(2, 100).required().confirmed() })',
     'Validator.object({ nick: Validator.text().required().email() })',
-    "Validator.object({ inner: Validator.object({ city: Validator.text() }).required() })",
+    'Validator.object({ inner: Validator.object({ city: Validator.text() }).required() })',
   ]
 
   test('incompatible rules are rejected by the compiler', () => {
@@ -129,7 +131,10 @@ describe('TypeScript compilation', () => {
 
       const firstCaseLine = 3 // 1: import, 2: blank, 3: first case
       const rejected = new Set(
-        errors.map((e) => /^bad\.ts\((\d+),/.exec(e)?.[1]).filter((n) => n !== undefined).map(Number),
+        errors
+          .map((e) => /^bad\.ts\((\d+),/.exec(e)?.[1])
+          .filter((n) => n !== undefined)
+          .map(Number),
       )
 
       const accepted = mustBeRejected.filter((_, i) => !rejected.has(firstCaseLine + i))
@@ -140,7 +145,9 @@ describe('TypeScript compilation', () => {
       const output = errors.join('\n')
       expect(output).toContain('.confirmed() is only allowed on the')
       expect(output).toContain('.email() is only allowed on a field whose name contains')
-      expect(output).toContain('call .required() or .nullable() before using it in a schema')
+      expect(output).toContain(
+        'call .required(), .nullable() or .optional() before using it in a schema',
+      )
     } finally {
       rmSync(dir, { recursive: true, force: true })
     }
@@ -162,6 +169,8 @@ describe('TypeScript compilation', () => {
           '  name: Validator.string(3, 50).trim().required(),',
           '  startDate: Validator.date().required(),',
           '  endDate: Validator.date().nullable(),',
+          '  nickname: Validator.string(2, 30).optional(),',
+          "  role: Validator.enum(['admin', 'user']).optional(),",
           '  address: Validator.object({ city: Validator.string(2, 100).required() }).required(),',
           '})',
           '',

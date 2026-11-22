@@ -107,7 +107,8 @@ function buildChecks(
     checks.push((v, data) => {
       const other = data[confirmationKey]
       // the value being checked has already been transformed, so the confirmation must be too
-      const normalized = transform !== undefined && typeof other === 'string' ? transform(other) : other
+      const normalized =
+        transform !== undefined && typeof other === 'string' ? transform(other) : other
 
       return v === normalized ? undefined : `${field} confirmation does not match`
     })
@@ -166,10 +167,7 @@ function buildChecks(
  * Runs once per schema object (the result is cached by `Validator`).
  * Nested `object()` shapes are compiled here too, so nothing is built while validating.
  */
-export function compileSchema(
-  schema: ValidationSchema,
-  errorMessages: ErrorMessages,
-): FieldPlan[] {
+export function compileSchema(schema: ValidationSchema, errorMessages: ErrorMessages): FieldPlan[] {
   return compileFields(schema, '', errorMessages)
 }
 
@@ -192,7 +190,10 @@ function compileFields(
 
     const def = builder.definition
 
-    if (def.required && def.nullable) {
+    // required, nullable and optional exclude each other
+    const presenceCount = [def.required, def.nullable, def.optional].filter(Boolean).length
+
+    if (presenceCount > 1) {
       console.error(errorMessages.invalidValidationSchema(field))
 
       throw new TypeError(`[LykosJS] Invalid rules for field "${field}".`)

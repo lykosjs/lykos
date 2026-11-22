@@ -1,7 +1,7 @@
 import { ErrorMessages } from '../errors/errors-messages'
 import { compileSchema } from './compile'
 import type { Data, FieldPlan } from './compile'
-import { FieldBuilder, present, validateEnumOptions } from './field-builder'
+import { FieldBuilder, present, resolveEnumOptions, validateEnumOptions } from './field-builder'
 import type {
   Checked,
   Fresh,
@@ -73,15 +73,24 @@ export class Validator {
     return present(base.minItems(minItems as number).maxItems(maxItems as number))
   }
 
-  /** One of a fixed list of strings. The type is the union of the given literals. */
-  static enum<const T extends readonly [string, ...string[]]>(
-    options: T,
-  ): Fresh<'enum', T[number]> {
+  /**
+   * One of a fixed list of strings. Accepts:
+   *   Validator.enum(['admin', 'user'])      -> 'admin' | 'user'
+   *   Validator.enum(UserRole)               -> UserRole (string enum or `as const` object)
+   *   Validator.enum('admin,user')           -> string   (comma separated)
+   */
+  static enum<const T extends readonly [string, ...string[]]>(options: T): Fresh<'enum', T[number]>
+  static enum<const E extends Readonly<Record<string, string>>>(
+    enumObject: E,
+  ): Fresh<'enum', E[keyof E]>
+  static enum(commaSeparated: string): Fresh<'enum', string>
+  static enum(input: unknown): Fresh<'enum', string> {
+    const options = resolveEnumOptions(input)
+
     validateEnumOptions(options)
 
-    return present(FieldBuilder.create('enum', [...options]))
+    return present(FieldBuilder.create('enum', options))
   }
-
   /**
    * A date. Accepts a valid `Date` or an ISO 8601 string (JSON cannot carry a `Date`):
    * `2026-01-31`, `2026-01-31T10:00:00Z`, `2026-01-31T10:00:00+03:00`.
