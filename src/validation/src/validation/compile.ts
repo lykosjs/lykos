@@ -186,7 +186,7 @@ function compileFields(
     if (!(builder instanceof FieldBuilder)) {
       throw new TypeError(
         `Invalid validation rules for "${field}": expected a validator such as ` +
-          `Validator.string(3, 50).required(). Array / string rules were removed in VentJS`,
+          `Validator.string(3, 50).required(). Array / string rules were removed in LykosJS`,
       )
     }
 
@@ -195,7 +195,7 @@ function compileFields(
     if (def.required && def.nullable) {
       console.error(errorMessages.invalidValidationSchema(field))
 
-      throw new TypeError(`[VentJS] Invalid rules for field "${field}".`)
+      throw new TypeError(`[LykosJS] Invalid rules for field "${field}".`)
     }
 
     const { isType, article } = typeCheck(def.kind)
