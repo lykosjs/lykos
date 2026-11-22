@@ -12,7 +12,6 @@ export type JwtAlgorithm =
   | 'ES256'
   | 'ES384'
   | 'ES512'
-  | 'EdDSA'
 
 export interface TokenConfig {
   /** Secret used to sign and verify this token type. */
