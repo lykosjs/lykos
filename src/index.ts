@@ -28,7 +28,7 @@ export { MiddlewarePipeline } from './middleware/middleware-pipeline'
 
 // DI
 export { DIModule } from './di/module'
-export { bind } from './di/bind'
+export { bind, value } from './di/bind'
 export { defineAuth } from './di/module'
 
 // types
