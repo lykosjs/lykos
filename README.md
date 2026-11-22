@@ -22,7 +22,7 @@ Built for performance, simplicity, and a better developer experience.
 
 ## Installation
 
-Requires [Bun](https://bun.sh) 1.3 or newer. There are two ways to get started.
+Requires [Bun](https://bun.sh) 1.4 or newer. There are two ways to get started.
 
 ### 1. Starter template (recommended)
 
