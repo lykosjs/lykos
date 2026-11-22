@@ -4,8 +4,15 @@
  */
 export type Token<T = unknown> = abstract new (...args: never[]) => T
 
+/**
+ * What can satisfy a constructor parameter of type `P`:
+ *  - a token that builds a `P` (the usual case), or
+ *  - `P` itself when `P` is a class, i.e. a class injected as a value (see `value()`).
+ */
+export type Dep<P> = Token<P> | (P extends Token ? P : never)
+
 /** Maps a constructor's parameter tuple to the tuple of tokens that satisfy it. */
-export type Deps<A extends readonly unknown[]> = { [K in keyof A]: Token<A[K]> }
+export type Deps<A extends readonly unknown[]> = { [K in keyof A]: Dep<A[K]> }
 
 export interface Provider<T = unknown> {
   readonly token: Token<T>

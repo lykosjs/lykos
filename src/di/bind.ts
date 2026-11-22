@@ -1,9 +1,6 @@
 import type { Deps, Provider, Token } from './types'
 
-/**
- * Registers a provider built by a custom factory.
- * `A` is inferred from the factory, so the dependency tokens are type-checked.
- */
+/** Internal: builds a provider from a token, its dependencies and a factory. */
 export function provide<T, A extends readonly unknown[]>(
   token: Token<T>,
   deps: Deps<A>,
@@ -12,7 +9,6 @@ export function provide<T, A extends readonly unknown[]>(
   return {
     token,
     deps: deps as readonly Token[],
-    // The container resolves `deps` in order, so `args` always matches `A`.
     create: (args) => factory(...(args as A)),
   }
 }
@@ -25,6 +21,13 @@ export function bind<T, A extends readonly unknown[]>(
   cls: new (...args: A) => T,
   ...deps: Deps<A>
 ): Provider<T> {
-  // A generic `A` can't be proven assignable to `never[]`, though any concrete one is.
   return provide(cls as unknown as Token<T>, deps, (...args: A) => new cls(...args))
+}
+
+/**
+ * Registers a class itself as an injectable value (e.g. a Sequelize model)
+ * instead of an instance built from it. The class is its own token.
+ */
+export function value<C extends Token>(cls: C): Provider<C> {
+  return provide(cls as unknown as Token<C>, [] as unknown as Deps<[]>, () => cls)
 }
