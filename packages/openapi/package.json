@@ -1,0 +1,59 @@
+{
+  "name": "@lykosjs/openapi",
+  "version": "0.0.1",
+  "description": "Official OpenAPI 3.1 documentation generator and Swagger UI for the LykosJS framework. Document every endpoint in one place and let LykosJS handle the rest.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "clean": "bun -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "build:js": "bun build ./src/index.ts --outdir ./dist --target bun --packages external",
+    "build:types": "tsc -p tsconfig.build.json",
+    "build": "bun run clean && bun run build:js && bun run build:types",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "check": "bun run typecheck && bun test"
+  },
+  "keywords": [
+    "lykosjs",
+    "openapi",
+    "openapi-3.1",
+    "swagger",
+    "swagger-ui",
+    "bun",
+    "typescript"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "bun": "1.4.4"
+  },
+  "peerDependencies": {
+    "lykosjs": "0.0.2"
+  },
+  "dependencies": {
+    "swagger-ui-dist": "5.18.2"
+  },
+  "devDependencies": {
+    "@seriousme/openapi-schema-validator": "^2.12.0",
+    "@types/bun": "^1.4.4",
+    "lykosjs": "0.0.2",
+    "typescript": "^7.0.2"
+  }
+}
