@@ -1,6 +1,6 @@
 {
   "name": "lykosjs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A lightweight, modular backend framework built for speed and DX.",
   "type": "module",
   "main": "./dist/index.js",
@@ -55,7 +55,7 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@riser-bob/cookie": "^0.1.1",
+    "@lykosjs/cookie": "^1.0.0",
     "@socket.io/bun-engine": "^0.1.2",
     "socket.io": "^4.8.4"
   }

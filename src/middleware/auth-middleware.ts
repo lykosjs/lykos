@@ -1,4 +1,4 @@
-import { CookieManager } from '@riser-bob/cookie'
+import { CookieManager } from '@lykosjs/cookie'
 import { ErrorHandler } from '../errors/error-handler'
 import type { Context } from '../types/ctx'
 import type { ContextMiddleware } from '../types/context-middleware'
