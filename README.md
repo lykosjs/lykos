@@ -1,13 +1,18 @@
 # LykosJS v1.0.0 — Latest 🐺
 
-<h1>
-  <img src="https://res.cloudinary.com/dgagbheuj/image/upload/v1795227129/koakwx1uyjf68edpilc8.png" alt="LykosJS Logo" width="48" height="48" align="absmiddle" />
-  LykosJS
-</h1>
+<p align="center">
+  <img src="https://res.cloudinary.com/dgagbheuj/image/upload/v1795227129/koakwx1uyjf68edpilc8.png" alt="LykosJS Logo" width="120" height="120" style="border: 0; margin: 0; padding: 0;" />
+</p>
 
-**A lightweight, modular backend framework built for speed and DX.**
+<h1 align="center">LykosJS</h1>
 
-Built for performance, simplicity, and a better developer experience.
+<p align="center">
+  <strong>A lightweight, modular backend framework built for speed and DX.</strong>
+</p>
+
+<p align="center">
+  Built for performance, simplicity, and a better developer experience.
+</p>
 
 > LykosJS is distributed under the [MIT License](#license).
 
