@@ -1,6 +1,6 @@
 {
   "name": "lykosjs",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "A lightweight, modular backend framework built for speed and DX.",
   "type": "module",
   "main": "./dist/index.js",
@@ -52,7 +52,7 @@
     "typescript-eslint": "^8.71.2"
   },
   "peerDependencies": {
-    "typescript": "^5"
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "@lykosjs/cookie": "^1.0.0",
