@@ -1,6 +1,6 @@
 {
   "name": "@lykosjs/openapi",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Official OpenAPI 3.1 documentation generator and Swagger UI for the LykosJS framework. Document every endpoint in one place and let LykosJS handle the rest.",
   "type": "module",
   "main": "./dist/index.js",
@@ -45,7 +45,7 @@
     "bun": "1.4.4"
   },
   "peerDependencies": {
-    "lykosjs": "0.0.2"
+    "lykosjs": "1.0.0"
   },
   "dependencies": {
     "swagger-ui-dist": "5.18.2"
@@ -53,7 +53,7 @@
   "devDependencies": {
     "@seriousme/openapi-schema-validator": "^2.12.0",
     "@types/bun": "^1.4.4",
-    "lykosjs": "0.0.2",
-    "typescript": "^7.0.2"
+    "lykosjs": "1.0.0",
+    "typescript": "^5.9.3"
   }
 }
