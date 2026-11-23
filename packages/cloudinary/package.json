@@ -1,6 +1,6 @@
 {
   "name": "@lykosjs/cloudinary",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A type-safe Cloudinary integration for uploading, managing, and deleting images, files, and videos in LykosJS applications",
   "license": "MIT",
   "author": "Zen Allaham <zenallaham09@gmail.com> (https://zenallaham.com)",
@@ -39,11 +39,11 @@
     "cloudinary": "^2.5.1"
   },
   "peerDependencies": {
-    "lykosjs": "^0.0.2"
+    "lykosjs": "^1.0.0"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "lykosjs": "^0.0.2",
-    "typescript": "^7.0.2"
+    "lykosjs": "^1.0.0",
+    "typescript": "^5.9.3"
   }
 }
