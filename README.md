@@ -1,6 +1,6 @@
 # LykosJS v1.0.0 — Latest 🐺
 
-# [LykosJS Logo](https://res.cloudinary.com/dgagbheuj/image/upload/v1795227129/koakwx1uyjf68edpilc8.png) LykosJS
+# [LykosJS Logo](https://res.cloudinary.com/dgagbheuj/image/upload/v1795527989/atneib1qc0uynu90pkfu.png) LykosJS
 
 **A lightweight, modular backend framework built for speed and DX.**
 
