@@ -1,46 +1,91 @@
-# LykosJS v1.0.0 — Latest 🐺
+<div align="center">
 
-<h1 align="center">
-  <img
-    src="https://res.cloudinary.com/dgagbheuj/image/upload/v1795527989/atneib1qc0uynu90pkfu.png"
-    alt="LykosJS Logo"
-    width="100"
-  />
-  <br />
-  LykosJS
-</h1>
+<img
+  src="https://res.cloudinary.com/dgagbheuj/image/upload/v1795313052/muvd4yk1qmoa3kmdql43.png"
+  alt="LykosJS — Built for Speed. Designed for Scale."
+  width="100%"
+/>
+
+<br />
+<br />
+
+<img
+  src="https://res.cloudinary.com/dgagbheuj/image/upload/v1795527989/atneib1qc0uynu90pkfu.png"
+  alt="LykosJS Logo"
+  width="96"
+/>
+
+# LykosJS
 
 **A lightweight, modular backend framework built for speed and DX.**
 
 Built for performance, simplicity, and a better developer experience.
 
-> LykosJS is distributed under the [MIT License](#license).
+<br />
+
+[![Version](https://img.shields.io/badge/version-1.0.0-1f6bff?style=for-the-badge&labelColor=02050d)](https://github.com/lykosjs/lykos)
+[![Bun](https://img.shields.io/badge/runtime-Bun%201.4%2B-19d3ff?style=for-the-badge&logo=bun&logoColor=white&labelColor=02050d)](https://bun.sh)
+[![TypeScript](https://img.shields.io/badge/TypeScript-first-3ea6ff?style=for-the-badge&logo=typescript&logoColor=white&labelColor=02050d)](https://www.typescriptlang.org)
+[![License: MIT](https://img.shields.io/badge/license-MIT-ffffff?style=for-the-badge&labelColor=02050d)](#license)
+
+[Installation](#installation) ·
+[Architecture](#architecture) ·
+[Dependency Injection](#dependency-injection) ·
+[CLI](#cli) ·
+[Documentation](https://lykos.com) ·
+[Contributing](#contributing)
+
+</div>
+
+<br />
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Installation](#installation)
+  - [Starter template (recommended)](#1-starter-template-recommended)
+  - [Start from scratch](#2-start-from-scratch)
+- [Architecture](#architecture)
+- [Dependency Injection](#dependency-injection)
+- [CLI](#cli)
+- [Learn More](#learn-more)
+- [Contributing](#contributing)
+- [Security](#security)
+- [License](#license)
+
+## Overview
+
+LykosJS is a backend framework for [Bun](https://bun.sh) and TypeScript. It pairs a lightweight HTTP core with explicit, decorator-free dependency injection, built-in validation, ready-to-use middleware, and an integrated CLI, so you can build real applications without assembling a stack from scratch.
 
 ## Features
 
-- **Modular Architecture** — Clean, reusable modules that keep your codebase organized and maintainable.
-- **Dependency Injection** — Explicit, decorator-free DI with `DIModule`, `bind`, and `value`.
-- **Ready-to-Use Middleware** — Protect routes and handle common request workflows.
-- **High Performance** — Built for Bun and TypeScript, with a lightweight HTTP core.
-- **Built-in Validation** — Validate incoming data with a simple, developer-friendly API.
-- **Integrated CLI** — Generate complete modules in seconds.
-- **Developer Experience** — Straightforward APIs and a clean architecture without unnecessary complexity.
+| | Feature | Description |
+| :-: | :-- | :-- |
+| 🧩 | **Modular Architecture** | Clean, reusable modules that keep your codebase organized and maintainable. |
+| 💉 | **Dependency Injection** | Explicit, decorator-free DI with `DIModule`, `bind`, and `value`. |
+| 🛡️ | **Ready-to-Use Middleware** | Protect routes and handle common request workflows. |
+| ⚡ | **High Performance** | Built for Bun and TypeScript, with a lightweight HTTP core. |
+| ✅ | **Built-in Validation** | Validate incoming data with a simple, developer-friendly API. |
+| 🛠️ | **Integrated CLI** | Generate complete modules in seconds. |
+| 🎯 | **Developer Experience** | Straightforward APIs and a clean architecture without unnecessary complexity. |
 
 ## Installation
 
-Requires [Bun](https://bun.sh) 1.4 or newer. There are two ways to get started.
+> [!NOTE]
+> Requires [Bun](https://bun.sh) **1.4 or newer**. There are two ways to get started.
 
 ### 1. Starter template (recommended)
 
-```
+```bash
 bun create lykosjs my-app
 ```
 
-The recommended way to get started. It creates a ready-to-use project with an organized modular structure.
+This is the recommended way to get started. It creates a ready-to-use project with an organized modular structure.
 
 Example application entry point (`src/launch.ts`):
 
-```
+```ts
 import { Lykos } from 'lykosjs'
 import { Modules } from './modules'
 
@@ -60,9 +105,9 @@ launch().catch((error: unknown) => {
 })
 ```
 
-After project generation, the terminal displays:
+After the project is generated, the terminal displays:
 
-```
+```text
 🐺 LykosJS · ✔ Project created successfully
 ────────────────────────────────────────────────────
 Location  C:\Projects\my-app
@@ -82,20 +127,20 @@ Happy building with LykosJS! 🚀
 
 LykosJS doesn't force a project structure on you. Initialize a Bun project and install LykosJS:
 
-```
+```bash
 bun init
 bun add lykosjs
 ```
 
 Then create your application entry point and configure your routes and modules using the LykosJS API.
 
-## Simple API, Modular Architecture
+## Architecture
 
 Organize your application into focused modules. Each module can contain its own controllers, routes, services, and configuration.
 
 Register your modules through the application:
 
-```
+```ts
 app.modules(Modules)
 ```
 
@@ -108,7 +153,7 @@ LykosJS ships with an explicit, decorator-free dependency injection system. Ther
 ### Core building blocks
 
 | Building block | Purpose |
-| -------------- | ------- |
+| :-- | :-- |
 | `DIModule` | Base class for a module. Declares what the module imports, provides, and exposes. |
 | `bind(Class, ...deps)` | Registers `Class` as a provider and injects `deps` into its constructor, in order. |
 | `value(x)` | Registers an existing value (a schema, config object, constant) so it can be injected. |
@@ -120,7 +165,7 @@ LykosJS ships with an explicit, decorator-free dependency injection system. Ther
 
 ### Defining a module
 
-```
+```ts
 import { bind, value, defineAuth, DIModule, Lykos, AuthMiddleware } from 'lykosjs'
 
 export class PaymentsModule extends DIModule {
@@ -164,14 +209,14 @@ export class PaymentsModule extends DIModule {
 1. **`value(...)`** makes plain values (such as schemas) injectable.
 2. **`bind(Class, ...deps)`** creates the class by passing each dependency to its constructor, in the order you list them.
 3. **`imports`** lets a module use providers exposed by other modules, such as `NotificationsService` from `NotificationsModule`.
-4. **Controllers** receive their services, **routers** receive the `Lykos` app, the controller, and the middlewares they apply.
+4. **Controllers** receive their services; **routers** receive the `Lykos` app, the controller, and the middlewares they apply.
 5. **`defineAuth`** configures how the module authenticates requests (here, cookie-based with a `token` cookie).
 
 ### A matching service
 
 Dependencies arrive through the constructor, in the same order as in `bind(...)`:
 
-```
+```ts
 export class PaymentsService {
   constructor(
     private readonly payments: typeof PaymentSchema,
@@ -181,9 +226,11 @@ export class PaymentsService {
 }
 ```
 
-### Tips for clean modules
+### Best practices
 
-- **Keep the constructor order in sync** with the `bind(...)` call. Changing one without the other changes what gets injected.
+> [!TIP]
+> Keep the constructor order in sync with the `bind(...)` call. Changing one without the other changes what gets injected.
+
 - **Share, don't repeat.** If several modules use the same schemas or middlewares, expose them from a dedicated module (for example a database module or a guards module) and list it in `imports`.
 - **Keep services focused.** A service that needs many dependencies is usually a sign it should be split.
 - **Test easily.** Because dependencies are plain constructor arguments, you can instantiate a class in a test with fakes, with no container required.
@@ -192,7 +239,7 @@ export class PaymentsService {
 
 Generate a complete module with one command:
 
-```
+```bash
 bun run lykosjs g module users
 ```
 
@@ -200,21 +247,32 @@ The generator creates the module files according to the selected project templat
 
 ## Learn More
 
-- **Framework:** [LykosJS on GitHub](https://github.com/lykosjs/lykos)
-- **Runtime:** [Bun](https://bun.sh)
-- **Documentation:** [LykosJS Documentation](https://lykos.com)
+| Resource | Link |
+| :-- | :-- |
+| Framework | [LykosJS on GitHub](https://github.com/lykosjs/lykos) |
+| Runtime | [Bun](https://bun.sh) |
+| Documentation | [LykosJS Documentation](https://lykos.com) |
 
-Contributions are welcome:
+## Contributing
+
+Contributions are welcome. Please read:
 
 - [CONTRIBUTING.md](https://github.com/lykosjs/lykos/blob/main/CONTRIBUTING.md)
 - [CODE_OF_CONDUCT.md](https://github.com/lykosjs/lykos/blob/main/CODE_OF_CONDUCT.md)
 
-For security issues, please read [SECURITY.md](https://github.com/lykosjs/lykos/blob/main/SECURITY.md) and report vulnerabilities privately.
+## Security
+
+> [!IMPORTANT]
+> For security issues, please read [SECURITY.md](https://github.com/lykosjs/lykos/blob/main/SECURITY.md) and report vulnerabilities privately.
 
 ## License
 
 LykosJS is released under the **MIT License**. See [LICENSE](https://github.com/lykosjs/lykos/blob/main/LICENSE).
 
-Copyright (c) 2026 Zen Allaham — LykosJS
+Copyright © 2026 Zen Allaham — LykosJS
 
-[![LykosJS — Built for Speed. Designed for Scale.](https://res.cloudinary.com/dgagbheuj/image/upload/v1795313052/muvd4yk1qmoa3kmdql43.png)](https://res.cloudinary.com/dgagbheuj/image/upload/v1795313052/muvd4yk1qmoa3kmdql43.png)
+<div align="center">
+
+<sub>**Built for Speed. Designed for Scale.** 🐺</sub>
+
+</div>
