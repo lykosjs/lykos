@@ -1,13 +1,5 @@
 <div align="center">
 
-<img
-  src="https://res.cloudinary.com/dgagbheuj/image/upload/v1795313052/muvd4yk1qmoa3kmdql43.png"
-  alt="LykosJS — Built for Speed. Designed for Scale."
-  width="100%"
-/>
-
-<br />
-<br />
 
 <img
   src="https://res.cloudinary.com/dgagbheuj/image/upload/v1795527989/atneib1qc0uynu90pkfu.png"
@@ -272,6 +264,12 @@ LykosJS is released under the **MIT License**. See [LICENSE](https://github.com/
 Copyright © 2026 Zen Allaham — LykosJS
 
 <div align="center">
+
+<img
+  src="https://res.cloudinary.com/dgagbheuj/image/upload/v1795313052/muvd4yk1qmoa3kmdql43.png"
+  alt="LykosJS — Built for Speed. Designed for Scale."
+  width="100%"
+/>
 
 <sub>**Built for Speed. Designed for Scale.** 🐺</sub>
 
